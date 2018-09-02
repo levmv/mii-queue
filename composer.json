@@ -1,0 +1,20 @@
+{
+    "name": "levmorozov/mii-queue",
+    "description": "Mii queue extension",
+    "type": "library",
+    "require": {
+        "levmorozov/mii": "^1.4"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lev Morozov",
+            "email": "mail@levmorozov.ru"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "levmorozov\\queue\\": "src/"
+        }
+    }
+}
