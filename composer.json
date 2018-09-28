@@ -3,7 +3,8 @@
     "description": "Mii queue extension",
     "type": "library",
     "require": {
-        "levmorozov/mii": "^1.4"
+        "levmorozov/mii": "^1.5",
+        "php": ">=7.1"
     },
     "license": "MIT",
     "authors": [
