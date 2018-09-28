@@ -44,7 +44,10 @@ class Queue extends Controller
     }
 
 
-    public function index()
+    /**
+     * Print usage information
+     */
+    public function help()
     {
         $this->info(
             "\nUsage: mii queue (run|listen) [options]\n\n" .
@@ -57,6 +60,9 @@ class Queue extends Controller
             "\n\n");
     }
 
+    /**
+     * Executes tasks in a loop until the queue is empty
+     */
     public function run()
     {
         $this->process(false);
@@ -64,7 +70,9 @@ class Queue extends Controller
         $this->info("Finished. :n jobs processed.", [":n" => $this->count]);
     }
 
-
+    /**
+     * Launches a daemon which infinitely queries the queue
+     */
     public function listen()
     {
         $this->process(true);
@@ -115,7 +123,9 @@ class Queue extends Controller
 
     public function stdout($string)
     {
-        if ($this->request->action === 'index' || $this->request->param('verbose'))
+        if ($this->request->action === 'index' ||
+            $this->request->action === 'help' ||
+            $this->verbose)
             return parent::stdout($string);
     }
 
