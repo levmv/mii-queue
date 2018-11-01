@@ -82,7 +82,7 @@ class Queue extends Controller
     private function process($repeat)
     {
         if (!\Mii::$app->has($this->queue)) {
-            $this->error('sdf');
+            $this->error("Unknown component: {$this->queue}");
         }
 
 

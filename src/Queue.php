@@ -77,6 +77,8 @@ abstract class Queue extends Component
             $job->execute();
         } catch (\Throwable $error) {
 
+            \Mii::error($error, __METHOD__);
+
             if ($job->can_retry($attempt, $error)) {
                 $this->free($id, $attempt, $job->get_delay($attempt));
                 $status = 'failed. unlocked for another try';
