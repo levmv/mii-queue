@@ -66,8 +66,9 @@ class Queue extends Controller
     public function run()
     {
         $this->process(false);
-
-        $this->info("Finished. :n jobs processed.", [":n" => $this->count]);
+        if($this->verbose || $this->count) {
+            $this->info("Finished. :n jobs processed.", [":n" => $this->count]);
+        }
     }
 
     /**

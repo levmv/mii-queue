@@ -80,7 +80,7 @@ abstract class Queue extends Component
             \Mii::error($error, __METHOD__);
 
             if ($job->can_retry($attempt, $error)) {
-                $this->free($id, $attempt, $job->get_delay($attempt));
+                $this->free($id, $job->get_delay($attempt));
                 $status = 'failed. unlocked for another try';
                 return false;
             } else {

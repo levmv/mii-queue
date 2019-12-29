@@ -32,7 +32,7 @@ abstract class Job
     function get_delay($attempt): int
     {
         return round(min(
-            mt_rand(1, 3) + pow(2, $attempt) * 2,
+            mt_rand(1, 3) + 2**$attempt,
             60
         ));
     }
