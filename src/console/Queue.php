@@ -122,13 +122,5 @@ class Queue extends Controller
         return !static::$exit;
     }
 
-    public function stdout($string)
-    {
-        if ($this->request->action === 'index' ||
-            $this->request->action === 'help' ||
-            $this->verbose)
-            return parent::stdout($string);
-    }
-
 
 }

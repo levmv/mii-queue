@@ -33,6 +33,8 @@ class Mysql extends Queue
 
     public function fetch(): ?array
     {
+        $result = null;
+
         try {
             DB::begin();
 
