@@ -29,7 +29,7 @@ abstract class Job
      * @param int $attempt
      * @return int
      */
-    function get_delay($attempt): int
+    function get_delay(int $attempt): int
     {
         return round(min(
             mt_rand(1, 3) + 2**$attempt,

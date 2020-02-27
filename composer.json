@@ -4,8 +4,8 @@
     "type": "library",
     "minimum-stability": "dev",
     "require": {
-        "levmorozov/mii": "^1.8",
-        "php": ">=7.2"
+        "levmorozov/mii": "^1.9",
+        "php": ">=7.4"
     },
     "license": "MIT",
     "authors": [

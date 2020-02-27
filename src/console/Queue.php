@@ -90,7 +90,7 @@ class Queue extends Controller
         $queue = \Mii::$app->get($this->queue);
 
         if (!$queue instanceof \levmorozov\queue\Queue) {
-            return;
+            $this->error("Wrong class: {$this->queue}");
         }
 
         $queue->run(function ($data) {
