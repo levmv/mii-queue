@@ -76,9 +76,9 @@ abstract class Queue extends Component
      * @param string $id of a job message
      * @return bool
      */
-    public function is_reserved($id) : bool
+    public function is_locked($id) : bool
     {
-        return $this->status($id) === self::STATUS_RESERVED;
+        return $this->status($id) === self::STATUS_LOCKED;
     }
 
     /**
