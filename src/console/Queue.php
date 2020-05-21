@@ -1,24 +1,21 @@
 <?php
 
-namespace levmorozov\queue\console;
+namespace mii\queue\console;
 
 use mii\console\Controller;
 
 class Queue extends Controller
 {
-    private static $exit = false;
+    private static bool $exit = false;
 
-    private $count = 0;
+    private int $count = 0;
 
     private $queue = 'queue';
     private $interval = 1;
     private $interval_idle = 10;
-    private $verbose = false;
-    private $isolate = false;
+    private bool $verbose = false;
+    private bool $isolate = false;
 
-    protected $components = [
-        'mysql' => ''
-    ];
 
     protected function before()
     {
@@ -30,7 +27,7 @@ class Queue extends Controller
 
         if (extension_loaded('pcntl')) {
             foreach ($exit_signals as $signal) {
-                pcntl_signal($signal, function () {
+                pcntl_signal($signal, static function () {
                     static::$exit = true;
                 });
             }
@@ -89,7 +86,7 @@ class Queue extends Controller
 
         $queue = \Mii::$app->get($this->queue);
 
-        if (!$queue instanceof \levmorozov\queue\Queue) {
+        if (!$queue instanceof \mii\queue\Queue) {
             return;
         }
 
@@ -114,13 +111,12 @@ class Queue extends Controller
     }
 
 
-    private function check_signals()
+    private function check_signals() : bool
     {
         if (extension_loaded('pcntl')) {
             pcntl_signal_dispatch();
         }
         return !static::$exit;
     }
-
 
 }

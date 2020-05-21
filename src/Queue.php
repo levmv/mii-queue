@@ -1,10 +1,10 @@
 <?php
 
-namespace levmorozov\queue;
+namespace mii\queue;
 
 
-use levmorozov\queue\serializers\PhpSerializer;
-use levmorozov\queue\serializers\SerializerInterface;
+use mii\queue\serializers\PhpSerializer;
+use mii\queue\serializers\SerializerInterface;
 use mii\core\Component;
 
 abstract class Queue extends Component
@@ -14,7 +14,7 @@ abstract class Queue extends Component
      */
     public $serializer = PhpSerializer::class;
 
-    public $timeout = 3600;
+    public int $timeout = 3600;
 
     public $channel = '';
 
@@ -37,8 +37,7 @@ abstract class Queue extends Component
 
     /**
      * Unlock task, increment number of attempts and set delay
-     * @param $id
-     * @param $attempt
+     * @param     $id
      * @param int $delay
      */
     abstract public function free($id, $delay = 0): void;

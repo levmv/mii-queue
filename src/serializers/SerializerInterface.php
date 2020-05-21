@@ -1,9 +1,9 @@
 <?php
 
-namespace levmorozov\queue\serializers;
+namespace mii\queue\serializers;
 
 
-use levmorozov\queue\Job;
+use mii\queue\Job;
 
 interface SerializerInterface
 {

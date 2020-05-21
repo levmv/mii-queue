@@ -1,18 +1,17 @@
 <?php
 
-namespace levmorozov\queue\drivers;
+namespace mii\queue\drivers;
 
 
-use levmorozov\queue\Job;
-use levmorozov\queue\Queue;
+use mii\queue\Job;
+use mii\queue\Queue;
 use mii\db\DB;
 use mii\db\Expression;
 use mii\db\Query;
 
 class Mysql extends Queue
 {
-
-    public $table = 'queue';
+    public string $table = 'queue';
 
     public function push(Job $job, $delay = 0): bool
     {

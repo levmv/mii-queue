@@ -1,6 +1,6 @@
 <?php
 
-namespace levmorozov\queue;
+namespace mii\queue;
 
 
 abstract class Job
@@ -15,11 +15,11 @@ abstract class Job
 
 
     /**
-     * @param int $attempt
+     * @param int        $attempt
      * @param \Throwable $error
      * @return bool
      */
-    function can_retry(int $attempt, \Throwable $error): bool
+    public function can_retry(int $attempt, \Throwable $error): bool
     {
         return $attempt <= 3;
     }
@@ -29,10 +29,10 @@ abstract class Job
      * @param int $attempt
      * @return int
      */
-    function get_delay($attempt): int
+    public function get_delay($attempt): int
     {
         return round(min(
-            mt_rand(1, 3) + 2**$attempt,
+            mt_rand(1, 3) + 2 ** $attempt,
             60
         ));
     }
