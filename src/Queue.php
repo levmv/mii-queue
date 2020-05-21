@@ -18,6 +18,10 @@ abstract class Queue extends Component
 
     public $channel = '';
 
+    public const STATUS_WAITING = 1;
+    public const STATUS_LOCKED = 2;
+    public const STATUS_DONE = 3;
+
 
     public function init(array $config = []): void
     {
@@ -25,8 +29,13 @@ abstract class Queue extends Component
         $this->serializer = new $this->serializer;
     }
 
-
-    abstract public function push(Job $job): bool;
+    /**
+     * Pushes job into queue.
+     *
+     * @param Job $job
+     * @return string|int|null id of a job message
+     */
+    abstract public function push(Job $job);
 
     /**
      * Find oldest free job and returns as array with keys: 'id', 'job', 'attempt'
@@ -47,6 +56,39 @@ abstract class Queue extends Component
     abstract public function remove($id): void;
 
     abstract public function clear(): void;
+
+    /**
+     * @param string $id of a job message
+     * @return int status code
+     */
+    abstract public function status($id);
+
+    /**
+     * @param string $id of a job message
+     * @return bool
+     */
+    public function is_waiting($id) : bool
+    {
+        return $this->status($id) === self::STATUS_WAITING;
+    }
+
+    /**
+     * @param string $id of a job message
+     * @return bool
+     */
+    public function is_reserved($id) : bool
+    {
+        return $this->status($id) === self::STATUS_RESERVED;
+    }
+
+    /**
+     * @param string $id of a job message
+     * @return bool
+     */
+    public function is_done($id) : bool
+    {
+        return $this->status($id) === self::STATUS_DONE;
+    }
 
 
     public function run(callable $can_continue, $repeat = false)

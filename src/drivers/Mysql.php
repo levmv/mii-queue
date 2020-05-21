@@ -13,9 +13,9 @@ class Mysql extends Queue
 {
     public string $table = 'queue';
 
-    public function push(Job $job, $delay = 0): bool
+    public function push(Job $job, $delay = 0)
     {
-        return (bool)(new Query())
+        (new Query())
             ->insert($this->table)
             ->columns(['channel', 'updated', 'delay', 'locked', 'attempt', 'job'])
             ->values([
@@ -27,6 +27,8 @@ class Mysql extends Queue
                 $this->serializer->serialize($job)
             ])
             ->execute();
+
+        return \Mii::$app->db->inserted_id();
     }
 
 
@@ -110,6 +112,23 @@ class Mysql extends Queue
             ->where('locked', '=', 1)
             ->and_where('updated', '<', time() - $this->timeout)
             ->execute();
+    }
+
+
+    public function status($id) {
+        $job = (new Query())
+                ->select(['id', 'locked'])
+                ->from($this->table)
+                ->where('id', '=', $id)
+                ->one();
+
+        if(!$job)
+            return self::STATUS_DONE;
+
+        if($job['locked'])
+            return self::STATUS_LOCKED;
+
+        return self::STATUS_WAITING;
     }
 
 
