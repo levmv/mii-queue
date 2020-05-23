@@ -12,7 +12,7 @@ class Queue extends Controller
 
     private $queue = 'queue';
     private $interval = 300000;
-    private $interval_idle = 10;
+    private $interval_idle = 5;
     private bool $verbose = false;
     private bool $isolate = false;
 
