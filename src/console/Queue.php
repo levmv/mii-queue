@@ -11,7 +11,7 @@ class Queue extends Controller
     private int $count = 0;
 
     private $queue = 'queue';
-    private $interval = 1;
+    private $interval = 300000;
     private $interval_idle = 10;
     private bool $verbose = false;
     private bool $isolate = false;
@@ -50,8 +50,8 @@ class Queue extends Controller
             "\nUsage: mii queue (run|listen) [options]\n\n" .
             "Options:\n" .
             " --queue=<name>\tQueue component name\n" .
-            " ——interval=<n>\tTime in seconds before each job\n" .
-            " ——interval_idle=<n>\tTime in seconds before each check for emptiness of queue\n" .
+            " ——interval=<n>\tTime (in microseconds) before each job. Default: {$this->interval}\n" .
+            " ——interval_idle=<n>\tTime (in seconds) before each check for emptiness of queue. Default: {$this->interval_idle}\n" .
             " ——verbose \tEnable verbose output\n" .
             " ——isolate \tExecute jobs in different process each\n" .
             "\n\n");
@@ -103,7 +103,7 @@ class Queue extends Controller
                     ':date' => date('d.m H:i:s')
                 ]);
 
-                sleep($this->interval);
+                usleep($this->interval);
             }
 
             return $this->check_signals();
