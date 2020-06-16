@@ -51,7 +51,7 @@ abstract class Queue extends Component
      */
     abstract public function free($id, $delay = 0): void;
 
-    abstract public function free_expired(): void;
+    abstract public function freeExpired(): void;
 
     abstract public function remove($id): void;
 
@@ -67,7 +67,7 @@ abstract class Queue extends Component
      * @param string $id of a job message
      * @return bool
      */
-    public function is_waiting($id) : bool
+    public function isWaiting($id) : bool
     {
         return $this->status($id) === self::STATUS_WAITING;
     }
@@ -76,7 +76,7 @@ abstract class Queue extends Component
      * @param string $id of a job message
      * @return bool
      */
-    public function is_locked($id) : bool
+    public function isLocked($id) : bool
     {
         return $this->status($id) === self::STATUS_LOCKED;
     }
@@ -85,7 +85,7 @@ abstract class Queue extends Component
      * @param string $id of a job message
      * @return bool
      */
-    public function is_done($id) : bool
+    public function isDone($id) : bool
     {
         return $this->status($id) === self::STATUS_DONE;
     }
@@ -94,7 +94,7 @@ abstract class Queue extends Component
     public function run(callable $can_continue, $repeat = false)
     {
         do {
-            (mt_rand(1, 10) === 1) && $this->free_expired();
+            (mt_rand(1, 10) === 1) && $this->freeExpired();
 
             if ($payload = $this->fetch()) {
 
@@ -120,8 +120,8 @@ abstract class Queue extends Component
 
             \Mii::error($error, __METHOD__);
 
-            if ($job->can_retry($attempt, $error)) {
-                $this->free($id, $job->get_delay($attempt));
+            if ($job->canRetry($attempt, $error)) {
+                $this->free($id, $job->getDelay($attempt));
                 $status = 'failed. unlocked for another try';
                 return false;
             } else {

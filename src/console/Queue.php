@@ -106,12 +106,12 @@ class Queue extends Controller
                 usleep($this->interval);
             }
 
-            return $this->check_signals();
+            return $this->checkSignals();
         }, $repeat);
     }
 
 
-    private function check_signals() : bool
+    private function checkSignals() : bool
     {
         if (extension_loaded('pcntl')) {
             pcntl_signal_dispatch();

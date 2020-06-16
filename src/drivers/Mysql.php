@@ -28,7 +28,7 @@ class Mysql extends Queue
             ])
             ->execute();
 
-        return \Mii::$app->db->inserted_id();
+        return \Mii::$app->db->insertedId();
     }
 
 
@@ -41,12 +41,12 @@ class Mysql extends Queue
 
             $result = (new Query())
                 ->select(['id', new Expression('(`updated` + `delay`) AS `age`'), 'job', 'attempt'])
-                ->for_update()
+                ->forUpdate()
                 ->from($this->table)
                 ->where('channel', '=', $this->channel)
-                ->and_where('locked', '=', 0)
+                ->andWhere('locked', '=', 0)
                 ->having('age', '<=', time())
-                ->order_by('age', 'asc')
+                ->orderBy('age', 'asc')
                 ->one();
 
             if ($result !== null) {
@@ -101,7 +101,7 @@ class Mysql extends Queue
     }
 
 
-    public function free_expired(): void
+    public function freeExpired(): void
     {
         (new Query())
             ->update($this->table)
@@ -110,7 +110,7 @@ class Mysql extends Queue
                 'updated' => time()
             ])
             ->where('locked', '=', 1)
-            ->and_where('updated', '<', time() - $this->timeout)
+            ->andWhere('updated', '<', time() - $this->timeout)
             ->execute();
     }
 
