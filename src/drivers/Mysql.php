@@ -50,6 +50,7 @@ class Mysql extends Queue
                 ->andWhere('locked', '=', 0)
                 ->having('age', '<=', time())
                 ->orderBy('age', 'asc')
+                ->orderBy('id', 'asc')
                 ->one();
 
             if ($result !== null) {
