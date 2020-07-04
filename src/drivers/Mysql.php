@@ -40,7 +40,10 @@ class Mysql extends Queue
             DB::begin();
 
             $result = (new Query())
-                ->select(['id', new Expression('(`updated` + `delay`) AS `age`'), 'job', 'attempt'])
+                ->select(
+                    'id',
+                    new Expression('(`updated` + `delay`) AS `age`'), 'job', 'attempt'
+                )
                 ->forUpdate()
                 ->from($this->table)
                 ->where('channel', '=', $this->channel)
@@ -117,7 +120,7 @@ class Mysql extends Queue
 
     public function status($id) {
         $job = (new Query())
-                ->select(['id', 'locked'])
+                ->select('id', 'locked')
                 ->from($this->table)
                 ->where('id', '=', $id)
                 ->one();
