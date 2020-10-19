@@ -32,8 +32,8 @@ abstract class Job
     public function getDelay(int $attempt): int
     {
         return round(min(
-            mt_rand(1, 3) + 2 ** $attempt,
-            60
+            rand(1, 5) + 3.5 ** $attempt,
+            180
         ));
     }
 

@@ -104,6 +104,14 @@ class Mysql extends Queue
             ->execute();
     }
 
+    public function stat() : array
+    {
+        return [
+            'total' =>  (new Query())->from($this->table)->where('channel', '=', $this->channel)->count(),
+            'locked' => (new Query())->from($this->table)->where('channel', '=', $this->channel)->where('locked', '=', 1)->count(),
+        ];
+    }
+
 
     public function freeExpired(): void
     {

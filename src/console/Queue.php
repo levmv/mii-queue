@@ -11,8 +11,8 @@ class Queue extends Controller
     private int $count = 0;
 
     private $queue = 'queue';
-    private $interval = 300000;
-    private $interval_idle = 5;
+    private $interval = 250000;
+    private $interval_idle = 4;
     private bool $verbose = false;
     private bool $isolate = false;
 
@@ -74,6 +74,14 @@ class Queue extends Controller
     public function listen()
     {
         $this->process(true);
+    }
+
+
+    public function stat()
+    {
+        $queue = \Mii::$app->get($this->queue);
+        $stat = $queue->stat();
+        $this->info("Total jobs: {$stat['total']}, locked: {$stat['locked']}");
     }
 
 
