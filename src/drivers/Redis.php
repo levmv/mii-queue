@@ -51,13 +51,11 @@ class Redis extends Queue
         $result = null;
 
         // Find a new waiting message
-        $id = $this->redis->brpop("$this->channel.waiting", 0.01);
+        $id = $this->redis->rpop("$this->channel.waiting");
 
         if (!$id) {
             return null;
         }
-
-        $id = $id[1];
 
         $job = $this->redis->hget("$this->channel.messages", $id);
         $this->redis->zadd("$this->channel.locked", time() + 300, $id);
