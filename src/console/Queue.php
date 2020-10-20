@@ -77,6 +77,12 @@ class Queue extends Controller
     }
 
 
+    public function clear()
+    {
+        \Mii::$app->get($this->queue)->clear();
+    }
+
+
     public function stat()
     {
         $queue = \Mii::$app->get($this->queue);
