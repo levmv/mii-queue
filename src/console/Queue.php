@@ -10,9 +10,9 @@ class Queue extends Controller
 
     private int $count = 0;
 
-    private $queue = 'queue';
-    private $interval = 250000;
-    private $interval_idle = 4;
+    private string $queue = 'queue';
+    private int $interval = 250000;
+    private int $interval_idle = 4;
     private bool $verbose = false;
     private bool $isolate = false;
 
@@ -33,9 +33,11 @@ class Queue extends Controller
             }
         }
 
-        foreach (['queue', 'interval', 'verbose', 'isolate', 'interval_idle'] as $name) {
-            $this->$name = $this->request->param($name, $this->$name);
-        }
+        $this->queue = (string) $this->request->param('queue', $this->queue);
+        $this->interval = (int) $this->request->param('interval', $this->interval);
+        $this->interval_idle = (int) $this->request->param('interval_idle', $this->interval_idle);
+        $this->verbose = (bool) $this->request->param('verbose', $this->verbose);
+        $this->isolate = (bool) $this->request->param('isolate', $this->isolate);
 
         return parent::before();
     }

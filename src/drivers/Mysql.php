@@ -104,10 +104,10 @@ class Mysql extends Queue
             ->execute();
     }
 
-    public function stat() : array
+    public function stat(): array
     {
         return [
-            'total' =>  (new Query())->from($this->table)->where('channel', '=', $this->channel)->count(),
+            'total' => (new Query())->from($this->table)->where('channel', '=', $this->channel)->count(),
             'locked' => (new Query())->from($this->table)->where('channel', '=', $this->channel)->where('locked', '=', 1)->count(),
         ];
     }
@@ -127,17 +127,18 @@ class Mysql extends Queue
     }
 
 
-    public function status($id) {
+    public function status($id)
+    {
         $job = (new Query())
-                ->select('id', 'locked')
-                ->from($this->table)
-                ->where('id', '=', $id)
-                ->one();
+            ->select('id', 'locked')
+            ->from($this->table)
+            ->where('id', '=', $id)
+            ->one();
 
-        if(!$job)
+        if (!$job)
             return self::STATUS_DONE;
 
-        if($job['locked'])
+        if ($job['locked'])
             return self::STATUS_LOCKED;
 
         return self::STATUS_WAITING;

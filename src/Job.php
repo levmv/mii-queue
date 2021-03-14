@@ -7,8 +7,9 @@ abstract class Job
 {
     public function __construct(array $config = [])
     {
-        foreach ($config as $key => $value)
+        foreach ($config as $key => $value) {
             $this->$key = $value;
+        }
     }
 
     abstract public function execute();

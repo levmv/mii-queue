@@ -116,7 +116,7 @@ class Redis extends Queue
     }
 
 
-    public function stat() : array
+    public function stat(): array
     {
         return [
             'total' => $this->redis->hlen("$this->channel.messages"),
@@ -125,7 +125,8 @@ class Redis extends Queue
     }
 
 
-    public function status($id) {
+    public function status($id)
+    {
 
         if (!is_numeric($id) || $id <= 0) {
             throw new \InvalidArgumentException("Unknown message ID: $id.");
