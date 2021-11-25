@@ -3,17 +3,19 @@
 namespace mii\queue\drivers;
 
 
+use Mii;
 use mii\queue\Job;
 use mii\queue\Queue;
 use mii\db\DB;
 use mii\db\Expression;
 use mii\db\Query;
+use Throwable;
 
 class Mysql extends Queue
 {
     public string $table = 'queue';
 
-    public function push(Job $job, $delay = 0)
+    public function push(Job $job, int $delay = 0)
     {
         (new Query())
             ->insert($this->table)
@@ -28,7 +30,7 @@ class Mysql extends Queue
             ])
             ->execute();
 
-        return \Mii::$app->db->insertedId();
+        return Mii::$app->db->insertedId();
     }
 
 
@@ -66,14 +68,14 @@ class Mysql extends Queue
 
             DB::commit();
 
-        } catch (\Throwable $t) {
+        } catch (Throwable $t) {
             DB::rollback();
         }
 
         return $result;
     }
 
-    public function free($id, $delay = 0): void
+    public function free($id, int $delay = 0): void
     {
         (new Query())
             ->update($this->table)
@@ -127,7 +129,7 @@ class Mysql extends Queue
     }
 
 
-    public function status($id)
+    public function status($id): int
     {
         $job = (new Query())
             ->select('id', 'locked')

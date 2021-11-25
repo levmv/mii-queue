@@ -3,6 +3,8 @@
 namespace mii\queue;
 
 
+use Throwable;
+
 abstract class Job
 {
     public function __construct(array $config = [])
@@ -17,10 +19,10 @@ abstract class Job
 
     /**
      * @param int        $attempt
-     * @param \Throwable $error
+     * @param Throwable $error
      * @return bool
      */
-    public function canRetry(int $attempt, \Throwable $error): bool
+    public function canRetry(int $attempt, Throwable $error): bool
     {
         return $attempt <= 3;
     }

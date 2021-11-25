@@ -2,6 +2,7 @@
 
 namespace mii\queue\console;
 
+use Mii;
 use mii\console\Controller;
 
 class Queue extends Controller
@@ -81,13 +82,13 @@ class Queue extends Controller
 
     public function clear()
     {
-        \Mii::$app->get($this->queue)->clear();
+        Mii::$app->get($this->queue)->clear();
     }
 
 
     public function stat()
     {
-        $queue = \Mii::$app->get($this->queue);
+        $queue = Mii::$app->get($this->queue);
         $stat = $queue->stat();
         $this->info("Total jobs: {$stat['total']}, locked: {$stat['locked']}");
     }
@@ -95,12 +96,12 @@ class Queue extends Controller
 
     private function process($repeat)
     {
-        if (!\Mii::$app->has($this->queue)) {
+        if (!Mii::$app->has($this->queue)) {
             $this->error("Unknown component: {$this->queue}");
         }
 
 
-        $queue = \Mii::$app->get($this->queue);
+        $queue = Mii::$app->get($this->queue);
 
         if (!$queue instanceof \mii\queue\Queue) {
             $this->error("Wrong class: {$this->queue}");

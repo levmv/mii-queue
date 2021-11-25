@@ -8,7 +8,7 @@ use mii\queue\Job;
 class PhpSerializer implements SerializerInterface
 {
 
-    public function serialize(Job $job)
+    public function serialize(Job $job): string
     {
         return serialize($job);
     }

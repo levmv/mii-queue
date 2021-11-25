@@ -3,9 +3,11 @@
 namespace mii\queue;
 
 
+use Mii;
 use mii\queue\serializers\PhpSerializer;
 use mii\queue\serializers\SerializerInterface;
 use mii\core\Component;
+use Throwable;
 
 abstract class Queue extends Component
 {
@@ -16,7 +18,7 @@ abstract class Queue extends Component
 
     public int $timeout = 3600;
 
-    public $channel = '';
+    public string $channel = '';
 
     public const STATUS_WAITING = 1;
     public const STATUS_LOCKED = 2;
@@ -49,7 +51,7 @@ abstract class Queue extends Component
      * @param     $id
      * @param int $delay
      */
-    abstract public function free($id, $delay = 0): void;
+    abstract public function free($id, int $delay = 0): void;
 
     abstract public function freeExpired(): void;
 
@@ -61,13 +63,13 @@ abstract class Queue extends Component
      * @param string $id of a job message
      * @return int status code
      */
-    abstract public function status($id);
+    abstract public function status($id): int;
 
     /**
      * @param string $id of a job message
      * @return bool
      */
-    public function isWaiting($id) : bool
+    public function isWaiting($id): bool
     {
         return $this->status($id) === self::STATUS_WAITING;
     }
@@ -76,7 +78,7 @@ abstract class Queue extends Component
      * @param string $id of a job message
      * @return bool
      */
-    public function isLocked($id) : bool
+    public function isLocked($id): bool
     {
         return $this->status($id) === self::STATUS_LOCKED;
     }
@@ -85,12 +87,12 @@ abstract class Queue extends Component
      * @param string $id of a job message
      * @return bool
      */
-    public function isDone($id) : bool
+    public function isDone($id): bool
     {
         return $this->status($id) === self::STATUS_DONE;
     }
 
-    abstract public function stat() : array;
+    abstract public function stat(): array;
 
     public function run(callable $can_continue, $repeat = false)
     {
@@ -117,9 +119,9 @@ abstract class Queue extends Component
 
         try {
             $job->execute();
-        } catch (\Throwable $error) {
+        } catch (Throwable $error) {
 
-            \Mii::error($error, __METHOD__);
+            Mii::error($error, __METHOD__);
 
             if ($job->canRetry($attempt, $error)) {
                 $this->free($id, $job->getDelay($attempt));
