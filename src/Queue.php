@@ -90,10 +90,7 @@ abstract class Queue extends Component
         return $this->status($id) === self::STATUS_DONE;
     }
 
-    public function stat() : array
-    {
-
-    }
+    abstract public function stat() : array;
 
     public function run(callable $can_continue, $repeat = false)
     {
