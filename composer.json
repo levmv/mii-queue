@@ -1,10 +1,10 @@
 {
-    "name": "levmorozov/mii-queue",
+    "name": "levmv/mii-queue",
     "description": "Mii queue extension",
     "type": "library",
     "minimum-stability": "dev",
     "require": {
-        "levmorozov/mii": "^1.9",
+        "levmv/mii": "^1.9",
         "php": ">=7.4",
         "ext-pcntl": "*"
     },
